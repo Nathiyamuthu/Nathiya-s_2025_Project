@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Your Cart - Choco-Choco</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f1f8f5;
+      padding: 30px;
+    }
+
+    h2 {
+      text-align: center;
+      color: #2e7d32;
+    }
+
+    table {
+      width: 100%;
+      margin-top: 30px;
+      border-collapse: collapse;
+      background: #fff;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    }
+
+    th, td {
+      padding: 12px;
+      border: 1px solid #ccc;
+      text-align: center;
+    }
+
+    th {
+      background-color: #2e7d32;
+      color: white;
+    }
+
+    .total {
+      font-weight: bold;
+      background-color: #e8f5e9;
+    }
+
+    .empty {
+      text-align: center;
+      padding: 30px;
+      font-size: 18px;
+      color: gray;
+    }
+
+    .back-link {
+      display: block;
+      margin-top: 30px;
+      text-align: center;
+    }
+
+    .back-link a {
+      color: #2e7d32;
+      font-weight: bold;
+      text-decoration: none;
+      border: 1px solid #2e7d32;
+      padding: 8px 16px;
+      border-radius: 5px;
+    }
+
+    .back-link a:hover {
+      background-color: #2e7d32;
+      color: white;
+    }
+  </style>
+</head>
+<body>
+
+  <h2>🛒 Your Shopping Cart</h2>
+
+  <table id="cartTable">
+    <tr>
+      <th>Product</th>
+      <th>Price</th>
+      <th>Qty</th>
+      <th>Total</th>
+    </tr>
+  </table>
+
+  <div class="empty" id="emptyMessage" style="display: none;">Your cart is empty.</div>
+
+  <div class="back-link">
+    <a href="index.html">⬅ Back to Shop</a>
+  </div>
+
+  <script>
+    const cart = JSON.parse(localStorage.getItem("cart")) || [];
+    const table = document.getElementById("cartTable");
+    const emptyMessage = document.getElementById("emptyMessage");
+
+    let grandTotal = 0;
+
+    if (cart.length === 0) {
+      table.style.display = "none";
+      emptyMessage.style.display = "block";
+    } else {
+      cart.forEach(item => {
+        const row = table.insertRow();
+        row.innerHTML = `
+          <td>${item.name}</td>
+          <td>$${item.price.toFixed(2)}</td>
+          <td>${item.quantity}</td>
+          <td>$${item.total}</td>
+        `;
+        grandTotal += parseFloat(item.total);
+      });
+
+      const totalRow = table.insertRow();
+      totalRow.innerHTML = `
+        <td colspan="3" class="total">Grand Total</td>
+        <td class="total">$${grandTotal.toFixed(2)}</td>
+      `;
+    }
+  </script>
+
+</body>
+</html>
